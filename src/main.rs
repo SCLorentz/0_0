@@ -12,8 +12,6 @@ fn panic(_info: &core::panic::PanicInfo) -> ! { exit(1) }
 pub extern "C" fn _start() -> !
 {
     format!(b"Hello, World!\n");
-
-    #[cfg(all(target_arch = "aarch64", target_os = "linux"))]
     format!(b"your input was: ", &read(b"input: "));
 
     exit(0)

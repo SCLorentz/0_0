@@ -3,11 +3,14 @@
 
 ---
 
-use `_run` to run the program
+use `run` to run the program
 
-## TODO:
-- [ ] add support to bare metal
-- [ ] add support for other OS'es
+## Functions
+|       | Linux aarch64 | Linux x86_64 | Windows | Windows on arm | MacOS |
+|-------|---------------|--------------|---------|----------------|-------|
+| exit  | yes           | yes          | yes     | no             | yes   |
+| read  | yes           | yes          | no      | no             | no    |
+| write | yes           | yes          | no      | no             | no    |
 
 ---
 
