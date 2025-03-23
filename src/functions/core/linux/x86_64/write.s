@@ -1,5 +1,5 @@
-.global write_amdl
-write_amdl:
+.global write
+write:
     mov rax 1
     mov rdi 1
     syscall
