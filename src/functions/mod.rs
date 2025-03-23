@@ -1,14 +1,17 @@
 pub mod base;
 
-extern "C" { fn exit(code: u8) -> !; }
-extern "C" { pub fn write(fd: u8, buf: *const u8, count: usize) -> isize; }
-extern "C" { fn read(fd: u8, buf: *const u8, count: usize) -> isize; }
+extern "C"
+{
+    fn exit(code: u8) -> !;
+    fn write(fd: u8, buf: *const u8, count: usize) -> isize;
+    fn read(fd: u8, buf: *const u8, count: usize) -> isize;
+}
 
 #[inline(always)]
 pub fn exit_s(code: u8) -> ! { unsafe { exit(code) } }
 
 #[inline(always)]
-pub fn write_s(text: &[u8]) { unsafe { write(1, text.as_ptr(), text.len() as usize); } }
+pub fn write_s(text: &[u8]) { unsafe { write(1, text.as_ptr(), text.len() as usize) } }
 
 
 #[macro_export]
