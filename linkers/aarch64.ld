@@ -1,4 +1,4 @@
-OUTPUT_FORMAT(elf64-littleaarch64) /* ou OUTPUT_FORMAT(elf64-x86-64) para x86_64 */
+OUTPUT_FORMAT(elf64-littleaarch64)
 ENTRY(_start)
 
 SECTIONS {
@@ -17,7 +17,7 @@ SECTIONS {
         *(.data .data.*)
     }
 
-    .bss : {
+    .bss (NOLOAD) : {
         *(.bss .bss.*)
     }
 
@@ -26,5 +26,6 @@ SECTIONS {
         *(.comment)
         *(.note.*)
         *(.eh_frame)
+        *(.gcc_except_table)
     }
 }

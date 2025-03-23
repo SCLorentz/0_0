@@ -1,9 +1,33 @@
 fn main()
 {
     println!("cargo:rerun-if-changed=build.rs");
-    println!("cargo:rerun-if-changed=linker.ld");
-    println!("cargo:rustc-link-arg=-Tlinker.ld");
-    
+    println!("cargo:rustc-link-arg=-Wl,--gc-sections");
+    println!("cargo:rustc-link-arg=-Wl,--strip-all");
+
+    configure_linker();
+    let targets = configure_targets();
+
+    for (name, file) in targets {
+        cc::Build::new()
+            .file(file)
+            .compile(name);
+    }
+
+fn configure_linker() {
+    #[cfg(all(target_arch = "aarch64", target_os = "linux"))]
+    {
+        println!("cargo:rerun-if-changed=linkers/aarch64.ld");
+        println!("cargo:rustc-link-arg=-Tlinkers/aarch64.ld");
+    }
+
+    #[cfg(all(target_arch = "x86_64", target_os = "linux"))]
+    {
+        println!("cargo:rerun-if-changed=linkers/x86_64.ld");
+        println!("cargo:rustc-link-arg=-Tlinkers/x86_64.ld");
+    }
+}
+
+fn configure_targets() -> Vec<(&'static str, &'static str)> {
     let mut targets = Vec::new();
 
     #[cfg(all(target_arch = "aarch64", target_os = "linux"))]
@@ -26,10 +50,6 @@ fn main()
         targets.push(("write_armx", "src/functions/core/write_armx.s"));
     }
 
-    for (name, file) in targets
-    {
-        cc::Build::new()
-            .file(file)
-            .compile(name);
-    }
+    targets
+}
 }
