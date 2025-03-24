@@ -1,17 +1,20 @@
 pub mod base;
 
-extern "C"
+mod bindings
 {
-    fn exit(code: u8) -> !;
-    fn write(fd: u8, buf: *const u8, count: usize) -> isize;
-    fn read(fd: u8, buf: *const u8, count: usize) -> isize;
+    extern "C"
+    {
+        pub fn exit(code: u8) -> !;
+        pub fn write(fd: u8, buf: *const u8, count: usize) -> isize;
+        pub fn read(fd: u8, buf: *const u8, count: usize) -> isize;
+    }
 }
 
 #[inline(always)]
-pub fn exit_s(code: u8) -> ! { unsafe { exit(code) } }
+pub fn exit(code: u8) -> ! { unsafe { bindings::exit(code) } }
 
 #[inline(always)]
-pub fn write_s(text: &[u8]) { unsafe { write(1, text.as_ptr(), text.len() as usize) } }
+pub fn write(text: &[u8]) -> isize { unsafe { bindings::write(1, text.as_ptr(), text.len() as usize) } }
 
 
 #[macro_export]
@@ -31,16 +34,16 @@ macro_rules! format
             }
         )*
 
-        crate::functions::write_s(&buffer[..index]);
+        crate::functions::write(&buffer[..index]);
     }};
 }
 
 #[inline(always)]
-pub fn read_s(text: &[u8]) -> [u8; 64]
+pub fn read(text: &[u8]) -> [u8; 64]
 {
     format!(text);
     let mut input = [0u8; 64];
-    unsafe { read(0, input.as_mut_ptr(), input.len()); }
+    unsafe { bindings::read(0, input.as_mut_ptr(), input.len()); }
 
     input
 }

@@ -3,7 +3,7 @@
 
 #[macro_use]
 mod functions;
-use functions::{exit_s as exit, read_s as read};
+use functions::{exit, read};
 
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! { exit(1) }
