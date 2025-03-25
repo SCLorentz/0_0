@@ -20,7 +20,7 @@ pub extern "C" fn _start() -> !
         [
             b"/bin/sh\0".as_ptr(),
             b"-c\0".as_ptr(),
-            "neofetch                                   ####".as_bytes().as_ptr(),
+            "neofetch ".as_bytes().as_ptr(),
             core::ptr::null(),
         ];
         if exec(b"/bin/sh\0", argv.as_ptr(), core::ptr::null()) < 0

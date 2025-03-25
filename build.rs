@@ -48,6 +48,8 @@ fn main()
             // TODO: (possible problem) review this file:
             targets.push(("write", "src/functions/core/linux/x86_64/write.s"));
             targets.push(("read", "src/functions/core/linux/x86_64/read.s"));
+            targets.push(("fork", "src/functions/core/linux/x86_64/fork.s"));
+            targets.push(("exec", "src/functions/core/linux/x86_64/exec.s"));
         }
 
         #[cfg(all(target_arch = "aarch64", target_os = "macos"))]
