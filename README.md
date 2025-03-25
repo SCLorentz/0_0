@@ -1,5 +1,4 @@
-# C.A. Presentation
-(and tests for my project)
+# Stripped Binaries
 
 ---
 
@@ -11,7 +10,3 @@ use `run` to run the program
 | exit  | yes           | yes          | yes     | no             | yes   |
 | read  | yes           | yes          | no      | no             | no    |
 | write | yes           | yes          | no      | no             | no    |
-
----
-
-Note que eu me permiti o uso constante de AIs nesse projeto, devido a sua complexidade

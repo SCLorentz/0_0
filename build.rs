@@ -38,6 +38,8 @@ fn main()
             targets.push(("exit", "src/functions/core/linux/aarch64/exit.s"));
             targets.push(("write", "src/functions/core/linux/aarch64/write.s"));
             targets.push(("read", "src/functions/core/linux/aarch64/read.s"));
+            targets.push(("fork", "src/functions/core/linux/aarch64/fork.s"));
+            targets.push(("exec", "src/functions/core/linux/aarch64/exec.s"));
         }
 
         #[cfg(all(target_arch = "x86_64", target_os = "linux"))]

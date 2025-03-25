@@ -7,6 +7,8 @@ mod bindings
         pub fn exit(code: u8) -> !;
         pub fn write(fd: u8, buf: *const u8, count: usize) -> isize;
         pub fn read(fd: u8, buf: *const u8, count: usize) -> isize;
+        pub fn fork() -> isize;
+        pub fn exec(pathname: *const u8, argv: *const *const u8, envp: *const *const u8) -> isize;
     }
 }
 
@@ -16,6 +18,11 @@ pub fn exit(code: u8) -> ! { unsafe { bindings::exit(code) } }
 #[inline(always)]
 pub fn write(text: &[u8]) -> isize { unsafe { bindings::write(1, text.as_ptr(), text.len() as usize) } }
 
+#[inline(always)]
+pub fn fork() -> isize { unsafe { bindings::fork() } }
+
+#[inline(always)]
+pub fn exec(pathname: &[u8], argv: *const *const u8, envp: *const *const u8) -> isize { unsafe { bindings::exec(pathname.as_ptr(), argv, envp) } }
 
 #[macro_export]
 macro_rules! format
@@ -38,6 +45,7 @@ macro_rules! format
     }};
 }
 
+#[allow(unused)]
 #[inline(always)]
 pub fn read(text: &[u8]) -> [u8; 64]
 {

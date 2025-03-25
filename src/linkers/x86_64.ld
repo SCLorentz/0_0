@@ -27,5 +27,9 @@ SECTIONS {
         *(.note.*)
         *(.eh_frame)
         *(.gcc_except_table)
+        *(.debug*)
+        *(.line)
+        *(.symtab)
+        *(.strtab)
     }
 }

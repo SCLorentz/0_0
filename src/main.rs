@@ -3,7 +3,7 @@
 
 #[macro_use]
 mod functions;
-use functions::{exit, read};
+use functions::{exit, fork, exec};
 
 #[panic_handler]
 fn panic(_info: &core::panic::PanicInfo) -> ! { exit(1) }
@@ -12,7 +12,23 @@ fn panic(_info: &core::panic::PanicInfo) -> ! { exit(1) }
 pub extern "C" fn _start() -> !
 {
     format!(b"Hello, World!\n");
-    format!(b"your input was: ", &read(b"input: "));
+
+    let pid = fork();
+    if pid == 0
+    {
+        let argv: [*const u8; 4] =
+        [
+            b"/bin/sh\0".as_ptr(),
+            b"-c\0".as_ptr(),
+            "neofetch                                   ####".as_bytes().as_ptr(),
+            core::ptr::null(),
+        ];
+        if exec(b"/bin/sh\0", argv.as_ptr(), core::ptr::null()) < 0
+        {
+            format!(b"exec failed\n");
+            exit(1);
+        }
+    }
 
     exit(0)
 }
