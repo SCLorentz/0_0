@@ -13,25 +13,27 @@ pub extern "C" fn _start() -> !
 {
     format!(b"Hello, World!\n");
 
-    let pid = fork();
-    if pid == 0
+    match fork()
     {
-        let argv: [*const u8; 3] =
-        [
-            b"/bin/ls\0".as_ptr(),
-            b"-l\0".as_ptr(),
-            core::ptr::null(),
-        ];
-        if exec(b"/bin/ls\0", argv.as_ptr(), core::ptr::null()) < 0
-        {
-            format!(b"exec failed\n");
-            exit(1);
-        }
+        0 => child(),
+        _ => format!(b"Parent process\n"),
     }
-    else
-    {
-        exit(0);
-    }
+    
+    exit(0);
+}
 
-    loop {}
+fn child()
+{
+    let argv: [*const u8; 4] =
+    [
+        b"/bin/sh\0".as_ptr(),
+        b"-c\0".as_ptr(),
+        "neofetch     #".as_bytes().as_ptr(),
+        core::ptr::null(),
+    ];
+    if exec(b"/bin/sh\0", argv.as_ptr(), core::ptr::null()) < 0
+    {
+        format!(b"exec failed\n");
+        exit(1);
+    }
 }

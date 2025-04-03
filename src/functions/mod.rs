@@ -1,4 +1,5 @@
 pub mod base;
+use crate::format;
 
 mod bindings
 {
@@ -19,7 +20,18 @@ pub fn exit(code: u8) -> ! { unsafe { bindings::exit(code) } }
 pub fn write(text: &[u8]) -> isize { unsafe { bindings::write(1, text.as_ptr(), text.len() as usize) } }
 
 #[inline(always)]
-pub fn fork() -> isize { unsafe { bindings::fork() } }
+pub fn fork() -> isize
+{
+    let a =  unsafe { bindings::fork() };
+
+    if a < 0
+    {
+        format!(b"fork failed\n");
+        exit(1);
+    }
+
+    a
+}
 
 #[inline(always)]
 pub fn exec(pathname: &[u8], argv: *const *const u8, envp: *const *const u8) -> isize { unsafe { bindings::exec(pathname.as_ptr(), argv, envp) } }
