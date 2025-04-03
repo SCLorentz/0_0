@@ -20,17 +20,14 @@ pub fn exit(code: u8) -> ! { unsafe { bindings::exit(code) } }
 pub fn write(text: &[u8]) -> isize { unsafe { bindings::write(1, text.as_ptr(), text.len() as usize) } }
 
 #[inline(always)]
-pub fn fork() -> isize
+pub fn fork(func: impl Fn(), err: impl Fn()) -> isize
 {
-    let a =  unsafe { bindings::fork() };
-
-    if a < 0
+    match unsafe { bindings::fork() }
     {
-        format!(b"fork failed\n");
-        exit(1);
+        -1 => { err(); return -1 },
+        0 => { func(); exit(0); }
+        _ => 0
     }
-
-    a
 }
 
 #[inline(always)]

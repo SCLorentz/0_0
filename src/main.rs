@@ -13,11 +13,7 @@ pub extern "C" fn _start() -> !
 {
     format!(b"Hello, World!\n");
 
-    match fork()
-    {
-        0 => child(),
-        _ => format!(b"Parent process\n"),
-    }
+    fork(child, || { format!(b"fork failed\n"); exit(1); });
     
     exit(0);
 }
