@@ -1,0 +1,55 @@
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-upload:
+    name: Build and upload
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get the release version from the run number
+        shell: bash
+        run: echo "VERSION=v${{ github.run_number }}" >> $GITHUB_ENV
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: false
+          command: build
+          args: --verbose --release
+
+      - name: Build archive
+        shell: bash
+        run: |
+          binary_name="almost_metal"
+          dirname="$binary_name-${{ env.VERSION }}"
+          mkdir "$dirname"
+          mv "target/release/$binary_name.exe" "$dirname"
+          7z a "$dirname.zip" "$dirname"
+          echo "ASSET=$dirname.zip" >> $GITHUB_ENV
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ env.VERSION }}
+          release_name: Release ${{ env.VERSION }}
+          draft: false
+          prerelease: false
+          body: Automatically created release
+          files: |
+            ${{ env.ASSET }}
