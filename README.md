@@ -1,6 +1,12 @@
-# Stripped Binaries
-
+Stripped Binaries
 ---
+
+# Todo:
+- Config the main.yml workflow to build the binary for linux;
+- Compress the binary using UPX;
+- Get the statistics of binary size and lines of code used;
+- insert the statistics into the README.md;
+- create a new release of the project with the zip source code and binaries;
 
 use `run` to run the program
 
