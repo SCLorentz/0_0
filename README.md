@@ -1,4 +1,4 @@
-Stripped Binaries
+NO_STD LIB
 ---
 
 # Todo:
