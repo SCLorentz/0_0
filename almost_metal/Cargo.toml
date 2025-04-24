@@ -1,0 +1,30 @@
+[package]
+name = "almost_metal"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+no_std_scl = { path = "../lib/no_std_scl" }
+
+[lints.rust]
+unexpected_cfgs = { level = "allow" }
+
+[profile.dev]
+panic = "abort"
+codegen-units = 1
+opt-level = "z"
+strip = true  # Automatically strip symbols from the binary.
+lto = true
+
+[profile.release]
+panic = "abort"
+debug = false
+opt-level = "z"
+lto = true
+
+[[bin]]
+name = "almost_metal"
+path = "src/main.rs"
+
+[build-dependencies]
+cc = "1.0"

@@ -16,7 +16,8 @@ RUN BIN="/usr/local/bin" \
     && wget -O ${BIN}/${UPX_TAR} --no-check-certificate https://github.com/upx/upx/releases/download/v4.2.4/${UPX_TAR} \
     && tar xf ${BIN}/${UPX_TAR} -C ${BIN}
 
-RUN apt-get install -y llvm
+RUN apt-get install -y llvm \
+    && rustup target add aarch64-unknown-none
 
 ENV FLASK_APP=rust_app
 EXPOSE 8000

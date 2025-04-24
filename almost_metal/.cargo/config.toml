@@ -1,0 +1,13 @@
+[build]
+target = "aarch64-unknown-none"
+
+[target.aarch64-unknown-none]
+linker = "aarch64-linux-gnu-gcc"
+rustflags = [
+  "-C", "link-arg=-nostartfiles",
+  "-C", "strip=symbols",
+  "-C", "target-cpu=native",
+  "-C", "link-arg=-s",
+  "-C", "codegen-units=1",
+  "-C", "incremental=no"
+]

@@ -1,0 +1,1 @@
+/workspaces/rust-test/lib/no_std_scl/target/debug/libno_std_scl.rlib: /workspaces/rust-test/lib/no_std_scl/src/functions/base.rs /workspaces/rust-test/lib/no_std_scl/src/functions/mod.rs /workspaces/rust-test/lib/no_std_scl/src/lib.rs
