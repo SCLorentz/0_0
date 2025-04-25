@@ -2,11 +2,12 @@
 #![no_main]
 
 extern crate no_std_scl;
-use no_std_scl::format;
-use no_std_scl::functions;
-//use no_std_scl::functions::exit;
+use no_std_scl::{format, functions::{self, read, Vec}};
 
 #[no_mangle]
-pub fn main() {
+pub fn main()
+{
     format!(b"Hello, world!\n");
+
+    let a = read(b"input ");
 }
