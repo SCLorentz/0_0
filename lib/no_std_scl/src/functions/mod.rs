@@ -20,18 +20,47 @@ pub fn exit(code: u8) -> ! { unsafe { bindings::exit(code) } }
 pub fn write(text: &[u8]) -> isize { unsafe { bindings::write(1, text.as_ptr(), text.len() as usize) } }
 
 #[inline(always)]
-pub fn fork(func: impl Fn(), err: impl Fn()) -> isize
+pub fn exec(pathname: &[u8], argv: *const *const u8, envp: *const *const u8) -> isize { unsafe { bindings::exec(pathname.as_ptr(), argv, envp) } }
+
+pub struct Exec<'buf>
 {
-    match unsafe { bindings::fork() }
-    {
-        -1 => { err(); return -1 },
-        0 => { func(); exit(0); }
-        _ => 0
-    }
+    pub pathname: &'buf [u8],
+    pub argv: &'buf [*const u8],
+    pub envp: *const *const u8,
 }
 
-#[inline(always)]
-pub fn exec(pathname: &[u8], argv: *const *const u8, envp: *const *const u8) -> isize { unsafe { bindings::exec(pathname.as_ptr(), argv, envp) } }
+impl<'a> Exec<'a>
+{
+    pub fn new(pathname: &'a [u8], argv: &'a [*const u8]) -> Self
+    {
+        Exec
+        {
+            pathname,
+            argv,
+            envp: core::ptr::null(), // for now, let's not use envp
+        }
+    }
+
+    pub fn exec(&self) -> Result<(), &[u8]>
+    {
+        unsafe
+        {
+            return match bindings::fork()
+            {
+                0 =>
+                {
+                    if bindings::exec(self.pathname.as_ptr(), self.argv.as_ptr(), self.envp) == -1
+                    {
+                        return Err(self.pathname);
+                    }
+                    return Ok(());
+                }
+                -1 =>  Err(self.pathname),
+                _ =>  Ok(()),
+            }
+        };
+    }
+}
 
 #[macro_export]
 macro_rules! format
