@@ -22,3 +22,8 @@ https://arm64.syscall.sh/
 | write | yes           | yes          | no      | no             | no    |
 | exec  | yes           | not tested   | no      | no             | no    |
 | kill  | not tested    | no           | no      | no             | no    |
+
+---
+just to save somewhere:
+as -o hello_world.o hello_world.s
+ld -o hello_world hello_world.o --entry=_start

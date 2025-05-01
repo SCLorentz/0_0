@@ -19,9 +19,6 @@ pub fn exit(code: u8) -> ! { unsafe { bindings::exit(code) } }
 #[inline(always)]
 pub fn write(text: &[u8]) -> isize { unsafe { bindings::write(1, text.as_ptr(), text.len() as usize) } }
 
-#[inline(always)]
-pub fn exec(pathname: &[u8], argv: *const *const u8, envp: *const *const u8) -> isize { unsafe { bindings::exec(pathname.as_ptr(), argv, envp) } }
-
 pub struct Exec<'buf>
 {
     pub pathname: &'buf [u8],
