@@ -1,0 +1,1 @@
+/workspaces/rust-test/almost_metal/target/aarch64-unknown-none/debug/almost_metal: /workspaces/rust-test/almost_metal/src/main.rs /workspaces/rust-test/lib/no_std_scl/build.rs /workspaces/rust-test/lib/no_std_scl/src/functions/base.rs /workspaces/rust-test/lib/no_std_scl/src/functions/mod.rs /workspaces/rust-test/lib/no_std_scl/src/lib.rs

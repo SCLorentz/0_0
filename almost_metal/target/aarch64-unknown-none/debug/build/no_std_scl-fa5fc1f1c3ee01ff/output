@@ -1,0 +1,4 @@
+cargo:rerun-if-changed=build.rs
+cargo:rustc-link-arg=-nostartfiles
+cargo:rustc-link-arg=-Wl,--gc-sections
+cargo:rustc-link-arg=-Wl,--strip-all
