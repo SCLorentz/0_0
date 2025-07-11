@@ -1,6 +1,7 @@
-/target
+**/target
 .vscode/
 .VSCodeCounter/
 no/
 hook/hello
 hook/hook
+**/.DS_store
