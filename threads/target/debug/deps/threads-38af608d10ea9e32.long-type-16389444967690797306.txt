@@ -1,1 +1,0 @@
-fn() -> (std::sync::mpsc::Sender<_>, std::sync::mpsc::Receiver<_>) {std::sync::mpsc::channel::<_>}
